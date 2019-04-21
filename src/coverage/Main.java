@@ -20,26 +20,65 @@ public class Main {
 		final CompilationUnit cu = (CompilationUnit) parser.createAST(null);
  
 		cu.accept(new ASTVisitor() {
- 
-			Set names = new HashSet();
+			
+			Set varNames = new HashSet();
+			Set methodNames = new HashSet();
+			
+			public boolean visit(MethodInvocation node) {
+				SimpleName name = node.getName();
+				
+				System.out.println("Invocação do método " + name
+						+ "' na linha "+ cu.getLineNumber(name.getStartPosition()));
+				return false;
+			}
+			
+			@SuppressWarnings("unchecked")
+		    public boolean visit(MethodDeclaration node) {
+				
+				SimpleName name = node.getName();
+				this.methodNames.add(name.getIdentifier());
+				System.out.println("Declaração do método '" + name + "' na linha "
+						+ cu.getLineNumber(name.getStartPosition()));
+		        AST ast = node.getAST();
+		        MethodInvocation methodInvocation = ast.newMethodInvocation();
+		       
+		        // System.out.println("")
+//		        QualifiedName qName =
+//		                   ast.newQualifiedName(
+//		                            ast.newSimpleName("System"),
+//		                            ast.newSimpleName("out"));
+//		        
+//		        methodInvocation.setExpression(qName);
+//		        methodInvocation.setName(ast.newSimpleName("println"));
+//		        
+//		        StringLiteral literalStart = ast.newStringLiteral();
+//		        literalStart.setLiteralValue("Iniciado execução do método: " + name);    
+//		        methodInvocation.arguments().add(0,literalStart);
+//		        
+//		       
+//		        // Append the statement
+//		        node.getBody().statements().add(0, ast.newExpressionStatement(methodInvocation));
+		
+		        return super.visit(node);
+		    }
+
  
 			public boolean visit(VariableDeclarationFragment node) {
+				
 				SimpleName name = node.getName();
-				this.names.add(name.getIdentifier());
-				System.out.println("Declaration of '" + name + "' at line"
-						+ cu.getLineNumber(name.getStartPosition()));
+				this.varNames.add(name.getIdentifier());
 				return false; // do not continue 
 			}
  
 			public boolean visit(SimpleName node) {
-				if (this.names.contains(node.getIdentifier())) {
-					System.out.println("Usage of '" + node + "' at line "
+				
+				if (this.varNames.contains(node.getIdentifier())) {
+					System.out.println("Uso da variável '" + node + "' na linha "
 							+ cu.getLineNumber(node.getStartPosition()));
 				}
 				return true;
-			}
+			}	
 		});
- 
 	}
  
 	//read file content into a string
@@ -50,7 +89,6 @@ public class Main {
 		char[] buf = new char[10];
 		int numRead = 0;
 		while ((numRead = reader.read(buf)) != -1) {
-			System.out.println(numRead);
 			String readData = String.valueOf(buf, 0, numRead);
 			fileData.append(readData);
 			buf = new char[1024];
@@ -67,7 +105,6 @@ public class Main {
 		String dirPath = dirs.getCanonicalPath() + File.separator+"src/code"+File.separator;
  
 		File root = new File(dirPath);
-		System.out.println(root.listFiles());
 		File[] files = root.listFiles ( );
 		String filePath = null;
  

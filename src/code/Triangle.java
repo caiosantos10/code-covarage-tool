@@ -17,6 +17,8 @@ public class Triangle {
         if (allSidesAreZero() || hasImpossibleSides() || violatesTriangleInequality()) { 
             throw new TriangleException(); 
         } 
+        
+        
     } 
  
     public TriangleKind getKind() { 
