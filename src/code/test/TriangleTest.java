@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import code.Triangle;
-import code.TriangleException;
+import target.Triangle;
+import target.TriangleException;
 import code.TriangleKind;
 
 public class TriangleTest { 
