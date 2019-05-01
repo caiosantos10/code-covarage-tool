@@ -2,6 +2,11 @@ package code;
 
 public class TriangleException extends Exception {
 	 
-    public TriangleException() { 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public TriangleException() { 
     } 
 }

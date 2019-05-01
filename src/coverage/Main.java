@@ -61,7 +61,7 @@ public class Main {
 		       
 		        // Append the statement
 		        node.getBody().statements().add(0, ast.newExpressionStatement(methodInvocation));
-		
+		        	
 		        return super.visit(node);
 		    }
 
