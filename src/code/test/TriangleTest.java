@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -14,26 +13,21 @@ import code.TriangleException;
 import code.TriangleKind;
 
 public class TriangleTest { 
-	public List<String> logs;
+	public List<String> logs= Arrays.asList(
+			"Iniciado execução do método: Triangle",
+			"Iniciado execução do método: getKind",
+			"Iniciado execução do método: allSidesAreZero",
+			"Iniciado execução do método: hasImpossibleSides",
+			"Iniciado execução do método: violatesTriangleInequality",
+			"Iniciado execução do método: getNumberOfUniqueSides"); 
 	
-	public int count;
-	
-	@BeforeClass
-	public void setUp() {
-		logs = Arrays.asList(
-				"Iniciado execução do método: Triangle",
-				"Iniciado execução do método: getKind",
-				"Iniciado execução do método: allSidesAreZero",
-				"Iniciado execução do método: hasImpossibleSides",
-				"Iniciado execução do método: violatesTriangleInequality",
-				"Iniciado execução do método: getNumberOfUniqueSides"); 
-	}
-	 
+		
+		 
     @Test 
     public void equilateralTriangleHaveEqualSides() throws Exception { 
         Triangle triangle = new Triangle(2, 2, 2); 
         assertEquals(TriangleKind.EQUILATERAL, triangle.getKind());
-        count++;
+        
     } 
  
     @Test 
@@ -121,9 +115,23 @@ public class TriangleTest {
  
     @Test 
     public void trianglesViolatingTriangleInequalityAreIllegal3() { 
-    	Assertions.assertThrows(TriangleException.class, () -> new Triangle(7, 3, 2)); 
-    	System.out.println(logs.toString());
+    	Assertions.assertThrows(TriangleException.class, () -> new Triangle(7, 3, 2));
+    	
+    	
+    	double realidade = Triangle.logs.size();
+        double espectativa = this.logs.size();
+        double cobertura = (realidade*100)/espectativa;
+        System.out.println("------------------------------------------------------");
+        System.out.println("|                                                    |");
+        System.out.println("---------COBERTURA DE CODIGO = "+cobertura+"%---------");
+        System.out.println("|                                                    |");
+        System.out.println("------------------------------------------------------");
+        
+    	
     } 
+    
+    
  
+    
     
 }
